@@ -1,0 +1,26 @@
+- name: Checking to see if the driver is already present
+  ansible.builtin.stat:
+    path: /usr/bin/geckodriver
+  register: driver
+
+- name: Obtain download URLs
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/mozilla/geckodriver/releases/latest
+  register: urls
+  when: not driver.stat.exists
+
+# Parse the JSON data with jmesquery. See https://jmespath.org/ for syntax
+- name: Determining the URL for the latest release
+  ansible.builtin.set_fact:
+    download_url: "{{ urls.json | json_query(jmesquery) }}"
+  vars:
+    jmesquery: "assets[?ends_with(name, '{{firefox_geckodriver_platform}}.tar.gz')].{name: name, url: browser_download_url}"
+  when: not driver.stat.exists
+
+- name: Decompressing the driver package
+  ansible.builtin.unarchive:
+    dest: /usr/bin
+    mode: '755'
+    remote_src: true
+    src: "{{download_url[0].url}}"
+  when: not driver.stat.exists

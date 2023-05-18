@@ -1,0 +1,4 @@
+# The driver is available for several platforms. By default, the 64-bit
+# Linux version is selected. Valid options are defined by the releases page:
+# https://github.com/mozilla/geckodriver/releases
+firefox_geckodriver_platform: linux64

@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Adam
+  description: firefox-geckodriver - Selenium driver for Firefox
+  license: MIT
+  company: none
+  min_ansible_version: 2.7
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+  galaxy_tags:
+    - selenium
+    - driver
+    - browser
+    - web
+
+dependencies: []
